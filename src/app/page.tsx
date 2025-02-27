@@ -37,19 +37,30 @@ export default function Home() {
     <div className="container mt-20 mx-auto justify-center">
       <div className="grid grid-cols-3 gap-4 text-center mx-5 max-w-[1000px]">
         <div className="main border-2 border-slate-500 h-[500px]">
-          
-          {sumData.map((data) => {
-            return (<button type="button" key={data.name} onClick={() => {}}>
-              {data.name}
+          {sumData.map((item) => {
+            return (<button type="button" key={item.name} onClick={() => {}}>
+              {item.name}
               </button>
             );
           })}
         </div>
-        <div className="fruit border-2 border-slate-500 h-[500px]">
+        <div className="fruit border-2 border-slate-200 h-[500px]">
           <h1 className="bg-slate-200">Fruit</h1>
+          {fruitList.map((item) => {
+            return (<button type="button" key={item.name} onClick={() => handleColumnClick(item)}>
+              {item.name}
+              </button>
+            );
+          })}
         </div>
-        <div className="vegetable border-2 border-slate-500">
+        <div className="vegetable border-2 border-slate-200">
         <h1 className="bg-slate-200">Vegetable</h1>
+        {vegetableList.map((item) => {
+            return (<button type="button" key={item.name} onClick={() => handleColumnClick(item)}>
+              {item.name}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
