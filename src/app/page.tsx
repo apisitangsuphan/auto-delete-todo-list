@@ -1,16 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { sumDataList, typeData } from "./assets/data";
-
+import { sumDataList } from "./assets/data";
+import { typeData, typeTimer } from "./assets/type";
 export default function Home() {
   const [sumData, setSumData] = useState<typeData[]>(sumDataList || []);
   const [fruitList, setFruitList] = useState<typeData[]>([]);
   const [vegetableList, setVegetableList] = useState<typeData[]>([]);
-
-  interface typeTimer {
-    item: typeData;
-    expireAt: number;
-  }
   const [itemTimers, setItemTimers] = useState<typeTimer[]>([]);
 
   useEffect(() => {
