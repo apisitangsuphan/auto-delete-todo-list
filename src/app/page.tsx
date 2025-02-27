@@ -34,8 +34,9 @@ export default function Home() {
       setVegetableList((vegetableList) => [...vegetableList, item]);
     }
     setSumData((sumData) =>
-      sumData.filter((sumData) => sumData.name !== item.name)
+      sumData.filter((data) => data.name !== item.name)
     );
+    setTimeout(() => moveToMainList(item),5000);
   };
 
   return (
