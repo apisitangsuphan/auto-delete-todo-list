@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import { sumDataList, typeData } from "./assets/data";
 
 export default function Home() {
@@ -10,7 +9,7 @@ export default function Home() {
 
   useEffect(() => {
     const timers = [...fruitList, ...vegetableList].map((item) =>
-      setTimeout(() => moveToMainList(item), 1000)
+      setTimeout(() => moveToMainList(item), 5000)
     );
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, [fruitList, vegetableList]);
@@ -40,9 +39,9 @@ export default function Home() {
   };
 
   return (
-    <div className="container mt-20 mx-auto">
-      <div className="grid grid-cols-3 justify-center gap-4 text-center mx-5 max-w-[800px] h-[500px]">
-        <div className="main flex flex-col">
+    <div className="container mx-auto">
+      <div className="grid grid-cols-3 gap-4 text-center mx-auto p-10 max-w-[800px] h-[300px]">
+        <div className="flex flex-col">
           {sumData.map((item) => {
             return (
               <button
@@ -56,7 +55,7 @@ export default function Home() {
             );
           })}
         </div>
-        <div className="fruit border-2 border-slate-100 h-[500px]">
+        <div className="fruit border-2 border-slate-100 ">
           <div className=" flex flex-col">
             <h1 className="bg-slate-100 mb-1">Fruit</h1>
             {fruitList.map((item) => {
