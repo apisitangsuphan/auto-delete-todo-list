@@ -19,7 +19,7 @@ export default function Home() {
       setFruitList((fruitList) =>
         fruitList.filter((fruit) => fruit.name !== item.name)
       );
-    } else {
+    } else{
       setVegetableList((vegetableList) =>
         vegetableList.filter((veg) => veg.name !== item.name)
       );
@@ -29,14 +29,16 @@ export default function Home() {
 
   const handleColumnClick = (item: typeData) => {
     if (item.type === "Fruit") {
-      setFruitList((fruitList) => [...fruitList, item]);
+      if (!fruitList.find((fruit) => fruit.name === item.name)) {
+        setFruitList((fruitList) => [...fruitList, item]);
+      }
     } else {
-      setVegetableList((vegetableList) => [...vegetableList, item]);
+      if (!vegetableList.find((veg) => veg.name === item.name)) {
+        setVegetableList((vegetableList) => [...vegetableList, item]);
+      }
     }
-    setSumData((sumData) =>
-      sumData.filter((data) => data.name !== item.name)
-    );
-    setTimeout(() => moveToMainList(item),5000);
+    setSumData((sumData) => sumData.filter((data) => data.name !== item.name));
+    
   };
 
   return (
@@ -49,7 +51,7 @@ export default function Home() {
                 type="button"
                 key={item.name}
                 onClick={() => handleColumnClick(item)}
-                className="border-2 border-slate-100 mb-1 hover:bg-slate-100 hover:cursor-pointer"
+                className="item-btn"
               >
                 {item.name}
               </button>
@@ -65,7 +67,7 @@ export default function Home() {
                   type="button"
                   key={item.name}
                   onClick={() => moveToMainList(item)}
-                  className="border-2 border-slate-100 mb-1 mx-1 hover:bg-slate-100 hover:cursor-pointer"
+                  className="item-btn"
                 >
                   {item.name}
                 </button>
@@ -82,7 +84,7 @@ export default function Home() {
                   type="button"
                   key={item.name}
                   onClick={() => moveToMainList(item)}
-                  className="border-2 border-slate-100 mb-1 mx-1 hover:bg-slate-100 hover:cursor-pointer"
+                  className="item-btn"
                 >
                   {item.name}
                 </button>
