@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { sumDataList, typeData } from "./assets/data";
 
 export default function Home() {
@@ -7,19 +7,32 @@ export default function Home() {
   const [fruitList, setFruitList] = useState<typeData[]>([]);
   const [vegetableList, setVegetableList] = useState<typeData[]>([]);
 
+  interface typeTimer {
+    item: typeData;
+    expireAt: number;
+  }
+  const [itemTimers, setItemTimers] = useState<typeTimer[]>([]);
+
   useEffect(() => {
-    const timers = [...fruitList, ...vegetableList].map((item) =>
-      setTimeout(() => moveToMainList(item), 5000)
-    );
-    return () => timers.forEach((timer) => clearTimeout(timer));
-  }, [fruitList, vegetableList]);
+    const intervalId = setInterval(() => {
+      const now = Date.now();
+      const itemsDue = itemTimers.filter((item) => item.expireAt <= now);
+      if (itemsDue.length > 0) {
+        itemsDue.forEach((item) => moveToMainList(item.item));
+        setItemTimers((itemTimers) =>
+          itemTimers.filter((timer) => timer.expireAt > now)
+        );
+      }
+    }, 200);
+    return () => clearInterval(intervalId);
+  }, [itemTimers]);
 
   const moveToMainList = (item: typeData) => {
     if (item.type === "Fruit") {
       setFruitList((fruitList) =>
         fruitList.filter((fruit) => fruit.name !== item.name)
       );
-    } else{
+    } else {
       setVegetableList((vegetableList) =>
         vegetableList.filter((veg) => veg.name !== item.name)
       );
@@ -31,14 +44,21 @@ export default function Home() {
     if (item.type === "Fruit") {
       if (!fruitList.find((fruit) => fruit.name === item.name)) {
         setFruitList((fruitList) => [...fruitList, item]);
+        setItemTimers((prev) => [
+          ...prev,
+          { item, expireAt: Date.now() + 5000 },
+        ]);
       }
     } else {
       if (!vegetableList.find((veg) => veg.name === item.name)) {
         setVegetableList((vegetableList) => [...vegetableList, item]);
+        setItemTimers((prev) => [
+          ...prev,
+          { item, expireAt: Date.now() + 5000 },
+        ]);
       }
     }
     setSumData((sumData) => sumData.filter((data) => data.name !== item.name));
-    
   };
 
   return (

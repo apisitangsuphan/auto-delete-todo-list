@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 .item-btn{
    @apply border-2 border-slate-100 mb-1 mx-1 hover:bg-slate-100 hover:cursor-pointer
 }
