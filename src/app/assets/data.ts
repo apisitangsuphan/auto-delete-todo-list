@@ -2,7 +2,7 @@ export type typeData = {
     type: string;
     name: string;
 }
-export const sumData = [
+export const sumDataList = [
   { type: "Fruit", name: "Apple" },
   { type: "Vegetable", name: "Broccoli" },
   { type: "Vegetable", name: "Mushroom" },
