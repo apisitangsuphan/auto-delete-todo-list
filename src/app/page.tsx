@@ -1,112 +1,38 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { sumDataList } from "./assets/data";
-import { typeData, typeTimer } from "./assets/type";
+import React from "react";
+import { useDataManagement } from "./useDataManagement";
+import { ItemButton } from "./ItemButton";
+import { ItemList } from "./ItemList";
+
 export default function Home() {
-  const [sumData, setSumData] = useState<typeData[]>(sumDataList || []);
-  const [fruitList, setFruitList] = useState<typeData[]>([]);
-  const [vegetableList, setVegetableList] = useState<typeData[]>([]);
-  const [itemTimers, setItemTimers] = useState<typeTimer[]>([]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const now = Date.now();
-      const itemsDue = itemTimers.filter((item) => item.expireAt <= now);
-      if (itemsDue.length > 0) {
-        itemsDue.forEach((item) => moveToMainList(item.item));
-        setItemTimers((itemTimers) =>
-          itemTimers.filter((timer) => timer.expireAt > now)
-        );
-      }
-    }, 200);
-    return () => clearInterval(intervalId);
-  }, [itemTimers]);
-
-  const moveToMainList = (item: typeData) => {
-    if (item.type === "Fruit") {
-      setFruitList((fruitList) =>
-        fruitList.filter((fruit) => fruit.name !== item.name)
-      );
-    } else {
-      setVegetableList((vegetableList) =>
-        vegetableList.filter((veg) => veg.name !== item.name)
-      );
-    }
-    setSumData((prev) => [...prev, item]);
-  };
-
-  const handleColumnClick = (item: typeData) => {
-    if (item.type === "Fruit") {
-      if (!fruitList.find((fruit) => fruit.name === item.name)) {
-        setFruitList((fruitList) => [...fruitList, item]);
-        setItemTimers((prev) => [
-          ...prev,
-          { item, expireAt: Date.now() + 5000 },
-        ]);
-      }
-    } else {
-      if (!vegetableList.find((veg) => veg.name === item.name)) {
-        setVegetableList((vegetableList) => [...vegetableList, item]);
-        setItemTimers((prev) => [
-          ...prev,
-          { item, expireAt: Date.now() + 5000 },
-        ]);
-      }
-    }
-    setSumData((sumData) => sumData.filter((data) => data.name !== item.name));
-  };
+  const {
+    sumData,
+    fruitList,
+    vegetableList,
+    moveToMainList,
+    handleColumnClick,
+  } = useDataManagement();
 
   return (
     <div className="container mx-auto">
       <div className="grid grid-cols-3 gap-4 text-center mx-auto p-10 max-w-[800px] h-[300px]">
         <div className="flex flex-col">
-          {sumData.map((item) => {
-            return (
-              <button
-                type="button"
-                key={item.name}
-                onClick={() => handleColumnClick(item)}
-                className="item-btn"
-              >
-                {item.name}
-              </button>
-            );
-          })}
+          {sumData.map((item) => (
+            <ItemButton key={item.name} item={item} onClick={handleColumnClick} />
+          ))}
         </div>
-        <div className="fruit border-2 border-slate-100 ">
-          <div className=" flex flex-col">
-            <h1 className="bg-slate-100 mb-1">Fruit</h1>
-            {fruitList.map((item) => {
-              return (
-                <button
-                  type="button"
-                  key={item.name}
-                  onClick={() => moveToMainList(item)}
-                  className="item-btn"
-                >
-                  {item.name}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        <div className="vegetable border-2 border-slate-100">
-          <div className=" flex flex-col">
-            <h1 className="bg-slate-100 mb-1">Vegetable</h1>
-            {vegetableList.map((item) => {
-              return (
-                <button
-                  type="button"
-                  key={item.name}
-                  onClick={() => moveToMainList(item)}
-                  className="item-btn"
-                >
-                  {item.name}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        
+        <ItemList
+          title="Fruit"
+          items={fruitList}
+          onItemClick={moveToMainList}
+        />
+        
+        <ItemList
+          title="Vegetable"
+          items={vegetableList}
+          onItemClick={moveToMainList}
+        />
       </div>
     </div>
   );
