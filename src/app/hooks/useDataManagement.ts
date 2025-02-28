@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { typeData, typeTimer } from "./assets/type";
-import { sumDataList } from "./assets/data";
+import { typeData, typeTimer } from "../types/type";
+import { sumDataList } from "../assets/data";
 
 export const useDataManagement = () => {
   const [sumData, setSumData] = useState<typeData[]>(sumDataList || []);

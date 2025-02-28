@@ -1,5 +1,5 @@
 import React from "react";
-import { typeData } from "./assets/type";
+import { typeData } from "../types/type";
 import { ItemButton } from "./ItemButton";
 
 interface ItemListProps {
@@ -8,7 +8,11 @@ interface ItemListProps {
   onItemClick: (item: typeData) => void;
 }
 
-export const ItemList: React.FC<ItemListProps> = ({ title, items, onItemClick }) => {
+export const ItemList: React.FC<ItemListProps> = ({
+  title,
+  items,
+  onItemClick,
+}) => {
   return (
     <div className="border-2 border-slate-100">
       <div className="flex flex-col">
